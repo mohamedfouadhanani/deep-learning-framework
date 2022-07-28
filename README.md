@@ -94,7 +94,7 @@ pip3 install dl
 from dl.model import Model
 from dl.layers import Input, Dense
 from dl.regularization import L1, L2, Dropout
-from dl.functions.activation import ReLU, Leaky_ReLU, TanH, Sigmoid, Linear
+from dl.functions.activation import ReLU, LeakyReLU, TanH, Sigmoid, Linear
 # optimizers
 from dl.optimizers import BatchGradientDescent
 from dl.optimizers import StochasticGradientDescent
