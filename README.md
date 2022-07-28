@@ -23,7 +23,7 @@
 
 ## Introduction
 
-In this project we introduce a very basic deep learning framework for quick and easy prototyping, intended as a small project to deepen our understanding of deep learning concepts with syntax inspired by [TensorFlow](https://tensorflow.com) and complete implementation from the Coursera [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning) Course by professor [Andrew Ng](https://twitter.com/AndrewYNg)
+In this project, I introduce a fundamental deep learning framework for quick and easy prototyping, intended as a small project to deepen my understanding of deep learning concepts with syntax inspired by [TensorFlow](https://www.tensorflow.org/) and complete implementation from the Coursera [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning) Course by professor [Andrew Ng](https://twitter.com/AndrewYNg)
 
 ## Installation
 
