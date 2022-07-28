@@ -2,6 +2,7 @@ import numpy as np
 
 from dl.functions import Function
 
+
 class TanH(Function):
     def __call__(self, Z):
         return np.tanh(Z)
