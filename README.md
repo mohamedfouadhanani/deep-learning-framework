@@ -3,8 +3,7 @@
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
-- [Installation](#installation)
-  - [Usage](#usage)
+- [Usage](#usage)
 - [Dependencies](#dependencies)
 - [Elements](#elements)
   - [Layers](#layers)
@@ -24,9 +23,7 @@
 
 In this project, I introduce a fundamental deep learning framework for quick and easy prototyping, intended as a small project to deepen my understanding of deep learning concepts with syntax inspired by [TensorFlow](https://www.tensorflow.org/) and complete implementation from the Coursera [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning) Course by professor [Andrew Ng](https://twitter.com/AndrewYNg)
 
-## Installation
-
-### Usage
+## Usage
 
 Download this repository and copy the `dl` folder inside your working directory.
 
