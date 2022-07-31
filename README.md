@@ -4,8 +4,7 @@
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-  - [Windows](#windows)
-  - [Mac/Linux](#maclinux)
+  - [Usage](#usage)
 - [Dependencies](#dependencies)
 - [Elements](#elements)
   - [Layers](#layers)
@@ -27,17 +26,9 @@ In this project, I introduce a fundamental deep learning framework for quick and
 
 ## Installation
 
-### Windows
+### Usage
 
-```shell
-pip install dl
-```
-
-### Mac/Linux
-
-```shell
-pip3 install dl
-```
+Download this repository and copy the `dl` folder inside your working directory.
 
 ## Dependencies
 
