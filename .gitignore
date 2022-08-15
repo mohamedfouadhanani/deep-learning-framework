@@ -1,2 +1,5 @@
 dist/
 dl.egg-info
+.spyproject/
+__pycache__/
+main.py
