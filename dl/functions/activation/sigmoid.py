@@ -1,12 +1,12 @@
 import numpy as np
 from decimal import Decimal
 
-from dl.automatic_gradient.functions.function import Function
+from dl.functions.activation.activation_function import ActivationFunction
 from dl.automatic_gradient.variable import Variable
 
-class Sigmoid(Function):
+class Sigmoid(ActivationFunction):
     @staticmethod
-    def run(variable: Variable) -> Variable:    
+    def run(variable):
         t = Decimal(1) / (Decimal(1) + (-variable.data).exp())
 
         output = Variable(

@@ -1,14 +1,14 @@
 import numpy as np
 from decimal import Decimal
 
-from dl.automatic_gradient.functions.function import Function
+from dl.functions.activation.activation_function import ActivationFunction
 from dl.automatic_gradient.variable import Variable
 
-class LeakyReLU(Function):
+class LeakyReLU(ActivationFunction):
     alpha: Decimal = Decimal(0.01)
 
     @staticmethod
-    def run(variable: Variable) -> Variable:    
+    def run(variable):
         t = max(LeakyReLU.alpha * variable.data, variable.data)
 
         output = Variable(

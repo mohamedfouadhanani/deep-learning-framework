@@ -1,12 +1,12 @@
 import numpy as np
 from decimal import Decimal
 
-from dl.automatic_gradient.functions.function import Function
+from dl.functions.activation.activation_function import ActivationFunction
 from dl.automatic_gradient.variable import Variable
 
-class TanH(Function):
+class TanH(ActivationFunction):
     @staticmethod
-    def run(variable: Variable) -> Variable:
+    def run(variable):
         ex = variable.data.exp()
         enx = (-variable.data).exp()
         t = (ex - enx) / (ex + enx)

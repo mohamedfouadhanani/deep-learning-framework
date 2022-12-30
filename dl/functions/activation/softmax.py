@@ -1,10 +1,9 @@
 import numpy as np
 
-from dl.automatic_gradient.functions.function import Function
+from dl.functions.activation.activation_function import ActivationFunction
 from dl.automatic_gradient.functions.exponential import Exponential
-from dl.automatic_gradient.variable import Variable
 
-class Softmax(Function):
+class Softmax(ActivationFunction):
     @staticmethod
     def run(variables, axis=None):
         def atomic_softmax(vector):

@@ -1,12 +1,12 @@
 import numpy as np
 from decimal import Decimal
 
-from dl.automatic_gradient.functions.function import Function
+from dl.functions.activation.activation_function import ActivationFunction
 from dl.automatic_gradient.variable import Variable
 
-class ReLU(Function):
+class ReLU(ActivationFunction):
     @staticmethod
-    def run(variable: Variable) -> Variable:
+    def run(variable):
         t = max(Decimal(0), variable.data)
 
         output = Variable(
