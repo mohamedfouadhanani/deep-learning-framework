@@ -21,3 +21,6 @@ class CategoricalCrossEntropy(LossFunction):
             return total_loss
         
         return loss
+
+    def __repr__(self):
+        return f"CategoricalCrossEntropy(regularizer={self.regularizer})"

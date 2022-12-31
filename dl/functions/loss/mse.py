@@ -16,3 +16,6 @@ class MSE(LossFunction):
             return total_loss
         
         return loss
+    
+    def __repr__(self):
+        return f"MSE(regularizer={self.regularizer})"

@@ -19,4 +19,4 @@ class Dense:
         self.b = Variable.from_numpy(b)
 
     def __repr__(self):
-        return f"Dense(n_units={self.n_units})"
+        return f"Dense(n_units={self.n_units}, activation_function={self.activation_function.__class__})"
