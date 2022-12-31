@@ -63,10 +63,13 @@ class Model:
         for layer in self.layers:
             representation += f"\t{layer}\n"
         
+
+        representation += "\n"
         # LOSS
         representation += "Loss\n"
-        representation += f"\t{self.loss}"
+        representation += f"\t{self.loss}\n"
 
+        representation += "\n"
         # OPTIMIZER
         representation += "Optimizer\n"
         representation += f"\t{self.optimizer}"
