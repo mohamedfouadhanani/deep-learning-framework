@@ -5,8 +5,8 @@ class L2:
     def __init__(self, _lambda):
         self._lambda = _lambda
 
-    def __call__(self, m, W):
-        return self._lambda / (2 * m) * np.sum(W ** 2)
+    def __call__(self, m, params):
+        # params is the result of model.parameters() which is a List[Variable]: numpy of course (n, )
+        # m is the number of examples in the batch for example
 
-    def prime(self, m, W):
-        return self._lambda / m * W
+        return self._lambda / (2 * m) * np.dot(params, params.T)
