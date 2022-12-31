@@ -10,3 +10,6 @@ class L2:
         # m is the number of examples in the batch for example
 
         return self._lambda / (2 * m) * np.dot(params, params.T)
+
+    def __repr__(self):
+        return f"L2(_lambda={self._lambda})"
