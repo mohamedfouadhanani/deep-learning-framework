@@ -107,11 +107,9 @@ class Variable:
     
     @staticmethod
     def from_numpy(ndarray):
-        ndarray = ndarray.astype(object)
-        h, w = ndarray.shape
+        ndarray_convert = np.empty(ndarray.shape, dtype=np.dtype('O'))
 
-        for i in range(h):
-            for j in range(w):
-                ndarray[i, j] = Variable(data=ndarray[i, j])
-            
-        return ndarray
+        for idx, element in np.ndenumerate(ndarray):
+            ndarray_convert[idx] = Variable(element.item())
+        
+        return ndarray_convert
