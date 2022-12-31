@@ -1,7 +1,7 @@
 from dl.functions.loss.loss_function import LossFunction
 from dl.automatic_gradient.functions.absolute import Absolute
 
-class MSE(LossFunction):
+class MAE(LossFunction):
     def __init__(self, regularizer=None):
         self.regularizer = regularizer
         
