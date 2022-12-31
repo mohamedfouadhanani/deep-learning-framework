@@ -1,8 +1,7 @@
 import numpy as np
 
-from dl.automatic_gradient.functions import Linear
+from dl.functions.activation import Linear
 from dl.automatic_gradient.variable import Variable
-
 
 class Dense:
     def __init__(self, n_units, activation_function=Linear):
