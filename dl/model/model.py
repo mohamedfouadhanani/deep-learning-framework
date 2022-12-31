@@ -25,10 +25,12 @@ class Model:
         # optimizer initialization
         self.optimizer.initialize()
 
-    def __call__(self, is_optimizing=False):
-        # FORWARD PROPAGATION
-        # KEEP IN MIND DROPOUT CODE
-        pass
+    def __call__(self, X, is_optimizing=False):
+        A = X
+        for layer in self.layers[1:]:
+            A = layer(A, is_optimizing=is_optimizing)
+
+        return A
 
     def append(self, layer):
         self.layers.append(layer)
