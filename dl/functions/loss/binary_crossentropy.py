@@ -6,6 +6,7 @@ from dl.automatic_gradient.functions.logarithm import Log
 class BinaryCrossEntropy(LossFunction):
     def __init__(self, regularizer=None):
         self.regularizer = regularizer
+        self.model = None
         
     def __call__(self, y_pred, y):
         log_y_pred = Log.run(y_pred)
@@ -16,4 +17,12 @@ class BinaryCrossEntropy(LossFunction):
         inverted_y_log_inverted_yp = inverted_y * log_inverted_yp
         
         loss = -1 * np.sum(y_log_yp + inverted_y_log_inverted_yp) / len(y)
+
+        if self.regularizer is not None:
+            regularization = self.regularizer(m=len(y), params=self.model.parameters())
+            
+            total_loss = loss + regularization
+            
+            return total_loss
+        
         return loss
