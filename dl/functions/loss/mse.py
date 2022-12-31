@@ -5,4 +5,4 @@ class MSE(LossFunction):
         self.regularizer = regularizer
         
     def __call__(self, y_pred, y):
-        return ((y_pred - y) ** 2).sum() / len(y)
+        return ((y_pred - y) ** 2).sum() / (2 * len(y))
