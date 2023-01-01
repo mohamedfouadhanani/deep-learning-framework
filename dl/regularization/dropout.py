@@ -18,7 +18,7 @@ class Dropout:
 
         return A
     
-    def initialize(self):
+    def initialize(self, **kwargs):
         pass
     
     def __repr__(self):
