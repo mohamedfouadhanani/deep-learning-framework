@@ -18,5 +18,8 @@ class Dropout:
 
         return A
     
+    def initialize(self):
+        pass
+    
     def __repr__(self):
         return f"Dropout(keep_prob={self.keep_prob})"
