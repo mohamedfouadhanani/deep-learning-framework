@@ -2,15 +2,17 @@ import numpy as np
 
 from dl.functions.activation import Linear
 from dl.automatic_gradient.variable import Variable
+from dl.functions.activation.activation_function import ActivationFunction
+from dl.layers.layer import Layer
 
-class Dense:
-    def __init__(self, n_units, activation_function=Linear):
+class Dense(Layer):
+    def __init__(self, n_units: int, activation_function: ActivationFunction=Linear):
         self.n_units = n_units
         self.activation_function = activation_function
         self.W = None
         self.b = None
 
-    def initialize(self, n_inputs):
+    def initialize(self, n_inputs: int):
         self.n_inputs = n_inputs
 
         W = np.random.randn(self.n_units, self.n_inputs) * np.sqrt(1 / n_inputs)

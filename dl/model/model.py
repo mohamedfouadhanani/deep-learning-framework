@@ -1,13 +1,18 @@
 import sys
 import dill
+from typing import List
 
 from dl.regularization import Dropout
+from dl.optimizers.optimizer import Optimizer
+from dl.functions.loss.loss_function import LossFunction
+from dl.layers.layer import Layer
+from dl.automatic_gradient.variable import Variable
 
 class Model:
-    def __init__(self, layers=None):
+    def __init__(self, layers: List[Layer]=None):
         self.layers = layers
 
-    def compile(self, optimizer, loss):
+    def compile(self, optimizer: Optimizer, loss: LossFunction):
         # settings optimizer
         self.optimizer = optimizer
         self.optimizer.model = self
@@ -17,15 +22,15 @@ class Model:
         self.loss.model = self
 
         # settings n_units of different layers
-        previous_layer = 0
-        current_layer = 1
+        previous_layer: int = 0
+        current_layer: int = 1
 
         while current_layer < len(self.layers):
             if isinstance(self.layers[current_layer], Dropout):
                 current_layer += 1
                 continue
             
-            n_units = self.layers[previous_layer].n_units
+            n_units: int = self.layers[previous_layer].n_units
             self.layers[current_layer].initialize(n_units)
             previous_layer = current_layer
             current_layer += 1
@@ -41,15 +46,15 @@ class Model:
 
         return A
 
-    def append(self, layer):
+    def append(self, layer: Layer):
         self.layers.append(layer)
 
-    def optimize(self, X, y, n_epochs, verbose=True):
+    def optimize(self, X, y, n_epochs: int, verbose: bool=True):
         history = self.optimizer(X, y, n_epochs, verbose)
         return history
     
-    def parameters(self, including_biases=True):
-        params = []
+    def parameters(self, including_biases: bool=True):
+        params: List[Variable] = []
         for layer in self.layers[1:]:
             params.extend(layer.W.reshape(-1, ))
             if including_biases:
@@ -57,13 +62,13 @@ class Model:
             
         return params
     
-    def save(self, file_path):
+    def save(self, file_path: str):
         pickle_model = dill.dumps(self)
         with open(f"{file_path}.dl", "wb") as file:
             file.write(pickle_model)
 
     @staticmethod
-    def load(file_path):
+    def load(file_path: str) -> "Model":
         model = None
         try:
             with open(file_path, "rb") as dill_file:
@@ -75,7 +80,7 @@ class Model:
             print(exception)
             sys.exit(1)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         representation = ""
 
         # LAYERS

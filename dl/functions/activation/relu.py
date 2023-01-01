@@ -6,10 +6,10 @@ from dl.automatic_gradient.variable import Variable
 
 class ReLU(ActivationFunction):
     @staticmethod
-    def run(variable):
-        t = max(Decimal(0), variable.data)
+    def run(variable: Variable) -> Variable:
+        t: Decimal = max(Decimal(0), variable.data)
 
-        output = Variable(
+        output: Variable = Variable(
             data=t,
             children=(variable, ),
             operation="relu",

@@ -1,8 +1,13 @@
 import numpy as np
 
-class Dropout:
+from dl.layers.layer import Layer
+
+class Dropout(Layer):
     def __init__(self, keep_prob):
         self.keep_prob = keep_prob
+
+    def initialize(self, n_inputs: int):
+        pass
 
     def __call__(self, A, **kwargs):
         is_optimizing = kwargs["is_optimizing"]

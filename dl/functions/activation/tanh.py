@@ -6,12 +6,12 @@ from dl.automatic_gradient.variable import Variable
 
 class TanH(ActivationFunction):
     @staticmethod
-    def run(variable):
-        ex = variable.data.exp()
-        enx = (-variable.data).exp()
-        t = (ex - enx) / (ex + enx)
+    def run(variable: Variable) -> Variable:
+        ex: Decimal = variable.data.exp()
+        enx: Decimal = (-variable.data).exp()
+        t: Decimal = (ex - enx) / (ex + enx)
 
-        output = Variable(
+        output: Variable = Variable(
             data=t, 
             children=(variable, ),
             operation="tanh",

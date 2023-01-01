@@ -6,10 +6,10 @@ from dl.automatic_gradient.variable import Variable
 
 class Sigmoid(ActivationFunction):
     @staticmethod
-    def run(variable):
-        t = Decimal(1) / (Decimal(1) + (-variable.data).exp())
+    def run(variable: Variable) -> Variable:
+        t: Decimal = Decimal(1) / (Decimal(1) + (-variable.data).exp())
 
-        output = Variable(
+        output: Variable = Variable(
             data=t,
             children=(variable, ),
             operation="sigmoid",

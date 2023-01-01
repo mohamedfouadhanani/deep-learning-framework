@@ -8,10 +8,10 @@ class LeakyReLU(ActivationFunction):
     alpha: Decimal = Decimal(0.01)
 
     @staticmethod
-    def run(variable):
-        t = max(LeakyReLU.alpha * variable.data, variable.data)
+    def run(variable: Variable) -> Variable:
+        t: Decimal = max(LeakyReLU.alpha * variable.data, variable.data)
 
-        output = Variable(
+        output: Variable = Variable(
             data=t,
             children=(variable, ),
             operation="leaky_relu",
