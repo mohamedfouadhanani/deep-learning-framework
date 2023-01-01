@@ -18,7 +18,7 @@ class Log(Function):
 
         def _backward():
             variable.gradient += Decimal(1.0) / variable.data * output.gradient
-        output._backward = _backward()
+        output._backward = _backward
 
         return output
 
