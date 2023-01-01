@@ -1,7 +1,7 @@
 import sys
-import numpy as np
 import dill
 
+from dl.regularization import Dropout
 
 class Model:
     def __init__(self, layers=None):
@@ -17,10 +17,19 @@ class Model:
         self.loss.model = self
 
         # settings n_units of different layers
-        L = len(self.layers)
-        for l in range(1, L):
-            n_units = self.layers[l - 1].n_units
-            self.layers[l].initialize(n_units)
+        previous_layer = 0
+        current_layer = 1
+
+        while current_layer < len(self.layers):
+            if isinstance(self.layers[current_layer], Dropout):
+                current_layer += 1
+                continue
+            
+            n_units = self.layers[previous_layer].n_units
+            self.layers[current_layer].initialize(n_units)
+            previous_layer = current_layer
+            current_layer += 1
+            
 
         # optimizer initialization
         self.optimizer.initialize()
