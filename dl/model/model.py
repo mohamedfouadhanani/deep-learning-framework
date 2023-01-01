@@ -39,6 +39,15 @@ class Model:
         history = self.optimizer(X, y, n_epochs, verbose)
         return history
     
+    def parameters(self, including_biases=True):
+        params = []
+        for layer in self.layers[1:]:
+            params.extend(layer.W.reshape(-1, ))
+            if including_biases:
+                params.extend(layer.b.reshape(-1, ))
+            
+        return params
+    
     def save(self, file_path):
         pickle_model = dill.dumps(self)
         with open(f"{file_path}.dl", "wb") as file:
