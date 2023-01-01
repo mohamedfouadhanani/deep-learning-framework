@@ -37,10 +37,10 @@ class BatchGradientDescent(Optimizer):
 
             # printing to the console
             if verbose:
-                print(f"[{epoch + 1}/{n_epochs}]: loss = {loss}")
+                print(f"[{epoch + 1}/{n_epochs}]: loss = {loss.data}")
 
             # keeping history
-            history["loss"].append(loss)
+            history["loss"].append(loss.data)
 
         return history
     
