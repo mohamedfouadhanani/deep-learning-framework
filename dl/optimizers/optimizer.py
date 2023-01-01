@@ -1,5 +1,4 @@
-import numpy as np
-
+from decimal import Decimal
 
 class Optimizer:
     def __init__(self):
@@ -10,3 +9,7 @@ class Optimizer:
 
     def __call__(self, X, y, n_epochs: int, verbose: bool=True):
         pass
+
+    def zero_gradients(self, params):
+        for param in params:
+            param.gradient = Decimal(0.)
