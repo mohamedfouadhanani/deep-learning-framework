@@ -19,6 +19,7 @@ class StochasticGradientDescent(Optimizer):
             # applying learning rate decay
             self.learning_rate = self.lr_decay(self.learning_rate0, epoch)
 
+            average_loss = 0
             for i in range(m):
                 X_i = X[i, :].reshape(-1, 1)
                 y_i = y[i, :].reshape(-1, 1)
@@ -42,10 +43,12 @@ class StochasticGradientDescent(Optimizer):
 
                 # printing to the console
                 if verbose:
-                    print(f"[{epoch + 1}/{n_epochs}, {i + 1}/{m}]: loss = {loss}")
+                    print(f"[{epoch + 1}/{n_epochs}, {i + 1}/{m}]: loss = {loss.data}")
+                
+                average_loss += loss.data
 
             # keeping history
-            history["loss"].append(loss)
+            history["loss"].append(average_loss)
 
         return history
 
