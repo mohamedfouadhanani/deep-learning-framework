@@ -21,7 +21,7 @@ class Dense(Layer):
         self.W = Variable.from_numpy(W)
         self.b = Variable.from_numpy(b)
 
-    def __call__(self, A):
+    def __call__(self, A, **kwargs):
         self.Z = np.dot(A, self.W.T) + self.b
         self.A = self.activation_function.run(self.Z)
 
