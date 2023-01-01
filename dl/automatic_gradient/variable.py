@@ -20,7 +20,7 @@ class Variable:
         self._backward: Callable = lambda: None
     
     def __repr__(self):
-        return f"Value(data={self.data}, gradient={self.gradient})"
+        return f"Variable(data={self.data}, gradient={self.gradient})"
 
     def __radd__(self, other) -> "Variable":
         return self + other
