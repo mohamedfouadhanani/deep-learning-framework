@@ -77,14 +77,14 @@ class RMSProp(Optimizer):
             for i in range(n_units):
                 for j in range(n_inputs):
                     layer.sdW[i, j] = Decimal(self.beta) * Decimal(layer.sdW[i, j]) + Decimal(1 - self.beta) * layer.W[i, j].gradient ** 2
-                    layer.W[i, j].data -= Decimal(self.learning_rate) * layer.W[i, j].gradient / (Decimal(layer.sdW[i, j]).sqrt() + Decimal(RMSProp.EPSILON))
+                    layer.W[i, j].data -= Decimal(self.learning_rate) * layer.W[i, j].gradient / (Decimal(layer.sdW[i, j]) + Decimal(RMSProp.EPSILON)).sqrt()
             
             # updating sdb
             n_units, n_inputs = layer.sdb.shape
             for i in range(n_units):
                 for j in range(n_inputs):
                     layer.sdb[i, j] = Decimal(self.beta) * Decimal(layer.sdb[i, j]) + Decimal(1 - self.beta) * layer.b[i, j].gradient ** 2
-                    layer.b[i, j].data -= Decimal(self.learning_rate) * layer.b[i, j].gradient / (Decimal(layer.sdb[i, j]).sqrt() + Decimal(RMSProp.EPSILON))
+                    layer.b[i, j].data -= Decimal(self.learning_rate) * layer.b[i, j].gradient / (Decimal(layer.sdb[i, j]) + Decimal(RMSProp.EPSILON)).sqrt()
 
     def __repr__(self) -> str:
         return f"RMSProp(batch_size={self.batch_size}, learning_rate={self.learning_rate0}, beta={self.beta})"
