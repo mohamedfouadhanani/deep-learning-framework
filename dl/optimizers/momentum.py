@@ -3,7 +3,6 @@ from decimal import Decimal
 
 from dl.layers.dense import Dense
 from dl.optimizers.optimizer import Optimizer
-from dl.automatic_gradient.variable import Variable
 
 class MomentumGradientDescent(Optimizer):
     def __init__(self, batch_size, learning_rate, lr_decay=lambda lr0, epoch: lr0, beta=0.9):
@@ -76,14 +75,14 @@ class MomentumGradientDescent(Optimizer):
             for i in range(n_units):
                 for j in range(n_inputs):
                     layer.vdW[i, j] = Decimal(self.beta) * Decimal(layer.vdW[i, j]) + Decimal(1 - self.beta) * layer.W[i, j].gradient
-                    layer.W[i, j].data -= Decimal(self.learning_rate) * Decimal(layer.vdW[i, j])
+                    layer.W[i, j].data -= Decimal(self.learning_rate) * layer.vdW[i, j]
             
             # updating vdb
             n_units, n_inputs = layer.vdb.shape
             for i in range(n_units):
                 for j in range(n_inputs):
                     layer.vdb[i, j] = Decimal(self.beta) * Decimal(layer.vdb[i, j]) + Decimal(1 - self.beta) * layer.b[i, j].gradient
-                    layer.b[i, j].data -= Decimal(self.learning_rate) * Decimal(layer.vdb[i, j])
+                    layer.b[i, j].data -= Decimal(self.learning_rate) * layer.vdb[i, j]
 
     def __repr__(self) -> str:
         return f"MomentumGradientDescent(batch_size={self.batch_size}, learning_rate={self.learning_rate0}, beta={self.beta})"
