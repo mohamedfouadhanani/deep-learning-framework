@@ -1,5 +1,4 @@
 import numpy as np
-import fractions
 from decimal import Decimal
 
 from dl.layers.dense import Dense
