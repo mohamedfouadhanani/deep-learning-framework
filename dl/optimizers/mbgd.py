@@ -1,7 +1,9 @@
 import numpy as np
+from dl.optimizers.optimizer import Optimizer
 
+from dl import Dense
 
-class MiniBatchGradientDescent:
+class MiniBatchGradientDescent(Optimizer):
     def __init__(self, batch_size, learning_rate, lr_decay=lambda lr0, epoch: lr0):
         self.batch_size = batch_size
         self.learning_rate0 = learning_rate
@@ -11,14 +13,14 @@ class MiniBatchGradientDescent:
     def initialize(self):
         pass
 
-    def __call__(self, X, y, n_epochs, verbose=True):
-        history = {"loss": []}
-        n, m = X.shape
+    def __call__(self, inputs, outputs, n_epochs, verbose=True):
+        history = {"losses": []}
+        m, _ = inputs.shape
+
         number_batches = np.ceil(m / self.batch_size).astype(int)
 
         for epoch in range(n_epochs):
-            # applying learning rate decay
-            self.learning_rate = self.lr_decay(self.learning_rate0, epoch)
+            l = 0
 
             for t in range(number_batches):
                 starting_index = t * self.batch_size
@@ -26,35 +28,29 @@ class MiniBatchGradientDescent:
 
                 finishing_index = min(finishing_index, m)
 
-                X_t = X[:, starting_index:finishing_index]
-                y_t = y[:, starting_index:finishing_index]
-
+                inputs_t = inputs[starting_index:finishing_index, :]
+                outputs_t = outputs[starting_index:finishing_index, :]
+                
                 # forward propagation
-                self.model.layers[0].A = X_t
-                self.model.forward_propagation()
+                predictions = self.model(inputs_t)
 
-                # loss calculation
-                y_hat = self.model.layers[-1].A
-                loss = self.model.loss(y_hat, y_t)
+                # compute loss
+                l += self.model.loss.forward(predictions, outputs_t)
 
-                if self.model.loss.regularizer is not None:
-                    for l in range(1, self.model.L):
-                        loss += self.model.loss.regularizer(m, self.model.layers[l].W)
+                # backward propagations
+                dpredictions = self.model.loss.backward(predictions, outputs_t)
+                self.model.backward_propagation(dpredictions)
 
-                # backward propagation - computing dWi & dbi for every layer
-                self.model.layers[-1].dA = self.model.loss.prime(y_hat, y_t)
-                self.model.backward_propagation(m)
+                # parameters update
+                for layer in self.model.layers:
+                    if isinstance(layer, Dense):
+                        layer.W -= self.learning_rate * layer.dW
+                        layer.b -= self.learning_rate * layer.db
 
-                # updating dWi & dbi
-                for l in range(1, self.model.L):
-                    self.model.layers[l].W -= self.learning_rate * self.model.layers[l].dW
-                    self.model.layers[l].b -= self.learning_rate * self.model.layers[l].db
-
-                # printing to the console
-                if verbose:
-                    print(f"[{epoch + 1}/{n_epochs}, {t + 1}/{number_batches}]: loss = {loss}")
-
-            # keeping history
-            history["loss"].append(loss)
-
+            average_loss = l / m
+            if verbose:
+                print(f"[{epoch + 1}/{n_epochs}]: loss = {average_loss}")
+                
+            history["losses"].append(average_loss)
+            
         return history
