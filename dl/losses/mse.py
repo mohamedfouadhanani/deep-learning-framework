@@ -6,7 +6,8 @@ class MSE(Loss):
         pass
     
     def forward(self, predictions, actuals):
-        return (1 / 2) * np.mean((predictions - actuals) ** 2)
+        m, _ = actuals.shape
+        return (1 / 2) * np.sum((predictions - actuals) ** 2) / m
     
     def backward(self, predictions, actuals):
         m, _ = actuals.shape

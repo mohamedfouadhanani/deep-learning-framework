@@ -6,7 +6,8 @@ class MAE(Loss):
         pass
     
     def forward(self, predictions, actuals):
-        return np.mean(np.absolute(predictions - actuals))
+        m, _ = actuals.shape
+        return np.sum(np.absolute(predictions - actuals)) / m
     
     def backward(self, predictions, actuals):
         m, _ = actuals.shape
