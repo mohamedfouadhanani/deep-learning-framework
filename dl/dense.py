@@ -1,10 +1,11 @@
 import numpy as np
 
 from dl.layer import Layer
+from dl.initializers.random_uniform import RandomUniform
 
 class Dense(Layer):
-    def __init__(self, n_inputs, n_outputs):
-        self.W = np.random.randn(n_inputs, n_outputs)
+    def __init__(self, n_inputs, n_outputs, weights_initializer=RandomUniform()):
+        self.W = weights_initializer((n_inputs, n_outputs))
         self.b = np.random.randn(1, n_outputs)
     
     def forward(self, inputs, is_optimizing):
