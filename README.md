@@ -17,7 +17,7 @@
 
 ## Introduction
 
-A from-scratch deep learning framework implementation in Python with NumPy.
+A from-scratch basic deep learning framework implementation in Python with NumPy, with syntax similar to TensorFlow and implementation similar to the lectures given by professor [Andrew Ng](https://www.andrewng.org/) in the course [The Deep Learning Specialization](https://www.deeplearning.ai/courses/deep-learning-specialization/?utm_medium=referral&utm_source=andrew-website).
 
 ## Dependencies
 
@@ -56,9 +56,7 @@ A from-scratch deep learning framework implementation in Python with NumPy.
 
 ### Optimizers
 
-- Batch Gradient Descent
 - Stochastic Gradient Descent
-- Mini Batch Gradient Descent
 - Momentum with Gradient Descent
 - RMSProp
 - Adaptive Moment Estimation
