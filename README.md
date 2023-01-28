@@ -6,6 +6,7 @@
 - [Dependencies](#dependencies)
 - [Components](#components)
   - [Layers](#layers)
+  - [Weights Initializers](#weights-initializers)
   - [Activation Functions](#activation-functions)
   - [Loss Functions](#loss-functions)
     - [Classification](#classification)
@@ -29,6 +30,15 @@ A from-scratch basic deep learning framework implementation in Python with NumPy
 ### Layers
 
 - Dense
+
+### Weights Initializers
+
+- Random Normal
+- Random Uniform
+- He Normal
+- He Uniform
+- Xavier Normal
+- Xavier Uniform
 
 ### Activation Functions
 
