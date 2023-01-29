@@ -57,7 +57,7 @@ class Model:
 
                 # parameters update
                 for layer in self.layers:
-                    if isinstance(layer, Dense):
+                    if layer.is_trainable:
                         self.optimizer(layer)
         
             average_loss /= m

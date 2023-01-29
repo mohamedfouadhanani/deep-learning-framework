@@ -8,14 +8,12 @@ class MomentumGradientDescent(Optimizer):
         self.beta = beta
     
     def __call__(self, layer):
-        if not hasattr(layer, "vdW") and not hasattr(layer, "vdb"):
-            layer.vdW = np.zeros_like(layer.W)
-            layer.vdb = np.zeros_like(layer.b)
+        if not np.all([f"vd{param}" in layer.cache for param in layer.params]):
+            for param in layer.params:
+                layer.cache[f"vd{param}"] = np.zeros_like(layer.cache[param])
         
-        layer.vdW = self.beta * layer.vdW + (1 - self.beta) * layer.dW
-        layer.vdb = self.beta * layer.vdb + (1 - self.beta) * layer.db
-
-        layer.W -= self.learning_rate * layer.dW
-        layer.b -= self.learning_rate * layer.db
+        for param in layer.params:
+            layer.cache[f"vd{param}"] = self.beta * layer.cache[f"vd{param}"] + (1 - self.beta) * layer.cache[f"d{param}"]
+            layer.cache[param] -= self.learning_rate * layer.cache[f"vd{param}"]
 
         self.learning_rate = self.lr_decay(self.learning_rate0)

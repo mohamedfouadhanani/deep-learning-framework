@@ -12,33 +12,22 @@ class AdaptiveMomentEstimation(Optimizer):
         self.coefficient = 0
     
     def __call__(self, layer):
-        if not hasattr(layer, "vdW") and not hasattr(layer, "vdb") and not hasattr(layer, "sdW") and not hasattr(layer, "sdb"):
-            layer.vdW = np.zeros_like(layer.W)
-            layer.vdb = np.zeros_like(layer.b)
+        if not np.all([f"vd{param}" in layer.cache for param in layer.params]) or not np.all([f"sd{param}" in layer.cache for param in layer.params]):
+            for param in layer.params:
+                layer.cache[f"vd{param}"] = np.zeros_like(layer.cache[param])
+                layer.cache[f"vd{param}_corrected"] = None
+
+                layer.cache[f"sd{param}"] = np.zeros_like(layer.cache[param])
+                layer.cache[f"sd{param}_corrected"] = None
+        
+        for param in layer.params:
+            layer.cache[f"vd{param}"] = self.beta1 * layer.cache[f"vd{param}"] + (1 - self.beta1) * layer.cache[f"d{param}"]
+            layer.cache[f"vd{param}_corrected"] = layer.cache[f"vd{param}"] / (1 - self.beta1 ** (self.coefficient + 1))
             
-            layer.sdW = np.zeros_like(layer.W)
-            layer.sdb = np.zeros_like(layer.b)
+            layer.cache[f"sd{param}"] = self.beta2 * layer.cache[f"sd{param}"] + (1 - self.beta2) * layer.cache[f"d{param}"] ** 2
+            layer.cache[f"sd{param}_corrected"] = layer.cache[f"sd{param}"] / (1 - self.beta2 ** (self.coefficient + 1))
 
-            layer.vdW_corrected = None
-            layer.vdb_corrected = None
-
-            layer.sdW_corrected = None
-            layer.sdb_corrected = None
-        
-        layer.vdW = self.beta1 * layer.vdW + (1 - self.beta1) * layer.dW
-        layer.vdb = self.beta1 * layer.vdb + (1 - self.beta1) * layer.db
-
-        layer.vdW_corrected = layer.vdW / (1 - self.beta1 ** (self.coefficient + 1))
-        layer.vdb_corrected = layer.vdb / (1 - self.beta1 ** (self.coefficient + 1))
-        
-        layer.sdW = self.beta2 * layer.sdW + (1 - self.beta2) * layer.dW ** 2
-        layer.sdb = self.beta2 * layer.sdb + (1 - self.beta2) * layer.db ** 2
-
-        layer.sdW_corrected = layer.sdW / (1 - self.beta2 ** (self.coefficient + 1))
-        layer.sdb_corrected = layer.sdb / (1 - self.beta2 ** (self.coefficient + 1))
-
-        layer.W -= self.learning_rate * layer.vdW_corrected / np.sqrt(layer.sdW_corrected + AdaptiveMomentEstimation.EPSILON)
-        layer.b -= self.learning_rate * layer.vdb_corrected / np.sqrt(layer.sdb_corrected + AdaptiveMomentEstimation.EPSILON)
+            layer.cache[param] -= self.learning_rate * layer.cache[f"vd{param}_corrected"] / np.sqrt(layer.cache[f"sd{param}_corrected"] + AdaptiveMomentEstimation.EPSILON)
 
         self.coefficient += 1
         self.learning_rate = self.lr_decay(self.learning_rate0)

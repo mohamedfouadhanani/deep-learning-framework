@@ -2,14 +2,20 @@ from dl.layer import Layer
 
 class Activation(Layer):
     def __init__(self, f, df):
+        cache = {}
+        cache["inputs"] = None
+        cache["outputs"] = None
+
+        super().__init__(False, cache)
+        
         self.f = f
         self.df = df
 
     def forward(self, inputs, is_optimizing):
-        self.inputs = inputs
-        self.outputs = self.f(self.inputs)
-        return self.outputs
+        self.cache["inputs"] = inputs
+        self.cache["outputs"] = self.f(self.cache["inputs"])
+        return self.cache["outputs"]
     
     def backward(self, doutputs):
-        self.dinputs = doutputs * self.df(self.inputs)
-        return self.dinputs
+        self.cache["dinputs"] = doutputs * self.df(self.cache["inputs"])
+        return self.cache["dinputs"]

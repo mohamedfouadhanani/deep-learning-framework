@@ -5,7 +5,7 @@ class StochasticGradientDescent(Optimizer):
         super().__init__(learning_rate, batch_size, lr_decay)
     
     def __call__(self, layer):
-        layer.W -= self.learning_rate * layer.dW
-        layer.b -= self.learning_rate * layer.db
+        for param in layer.params:
+            layer.cache[param] -= self.learning_rate * layer.cache[f"d{param}"]
 
         self.learning_rate = self.lr_decay(self.learning_rate0)
