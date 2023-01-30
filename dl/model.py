@@ -1,5 +1,5 @@
 import numpy as np
-from dl.dense import Dense
+import dill
 
 class Model:
     def __init__(self, layers):
@@ -73,3 +73,25 @@ class Model:
                 print(f"[{epoch + 1}/{n_epochs}]: Training Loss: {training_loss} {f', Validation Loss: {val_l}' if inputs_val is not None and outputs_val is not None else ''}")
         
         return self.history
+    
+    def save(self, file_path, silent=False):
+        try:
+            with open(file_path, "wb") as dill_file:
+                dill.dump(self, dill_file)
+            return True
+        except Exception as e:
+            if not silent:
+                print(e)
+            return False
+    
+    @staticmethod
+    def load(file_path, silent=False):
+        model = None
+        try:
+            with open(file_path, "rb") as dill_file:
+                model = dill.load(dill_file)
+        except Exception as e:
+            if not silent:
+                print(e)
+        finally:
+            return model
