@@ -16,4 +16,4 @@ class CategoricalCrossEntropy(Loss):
     
     def backward(self, predictions, actuals):
         m, _ = actuals.shape
-        return (1 / m) * (predictions - actuals)
+        return - (1 / m) * (actuals / predictions)
