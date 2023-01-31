@@ -6,6 +6,7 @@
 - [Dependencies](#dependencies)
 - [Components](#components)
   - [Layers](#layers)
+  - [Normalization](#normalization)
   - [Weights Initializers](#weights-initializers)
   - [Activation Functions](#activation-functions)
   - [Loss Functions](#loss-functions)
@@ -31,6 +32,11 @@ A from-scratch basic deep learning framework implementation in Python with NumPy
 
 - Dense
 
+### Normalization
+
+- Batch Normalization
+- Layer Normalization
+
 ### Weights Initializers
 
 - Random Normal
@@ -47,6 +53,7 @@ A from-scratch basic deep learning framework implementation in Python with NumPy
 - Tangent Hyperbolic
 - Sigmoid
 - Exponential Linear Unit
+- Softmax
 
 ### Loss Functions
 
