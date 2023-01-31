@@ -5,11 +5,10 @@ from dl.layer import Layer
 class BatchNormalization(Layer):
     EPSILON = 1e-5
 
-    def __init__(self, momentum=0.9, is_trainable=True):
+    def __init__(self, is_trainable=True):
         cache = {}
         cache["gamma"] = np.random.normal(0, 1)
         cache["beta"] = np.random.normal(0, 1)
-        cache["momentum"] = momentum
 
         params = ["gamma", "beta"]
         
