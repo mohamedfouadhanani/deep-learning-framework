@@ -77,5 +77,4 @@ Checkout the code examples in the `examples` directory.
 
 ## Implementation notes
 
-- `Categorical Cross Entropy` loss function explicitly implements a softmax activation.
 - `inputs` must have the shape `(# of samples, # of features)`.
