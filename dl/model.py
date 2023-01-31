@@ -31,15 +31,15 @@ class Model:
         self.loss = loss
         self.optimizer = optimizer
     
-    def optimize(self, inputs_train, outputs_train, n_epochs, verbose=True, inputs_val=None, outputs_val=None):
+    def optimize(self, inputs_train, outputs_train, n_epochs, batch_size, verbose=True, inputs_val=None, outputs_val=None):
         m, _ = inputs_train.shape
 
-        n_batches = np.ceil(m / self.optimizer.batch_size).astype(int)
+        n_batches = np.ceil(m / batch_size).astype(int)
         
         for epoch in range(n_epochs):
             for batch in range(n_batches):
-                starting_index = batch * self.optimizer.batch_size
-                finishing_index = min(starting_index + self.optimizer.batch_size, m)
+                starting_index = batch * batch_size
+                finishing_index = min(starting_index + batch_size, m)
 
                 inputs_t = inputs_train[starting_index:finishing_index, :]
                 outputs_t = outputs_train[starting_index:finishing_index, :]

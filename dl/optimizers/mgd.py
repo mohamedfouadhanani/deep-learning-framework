@@ -3,8 +3,8 @@ import numpy as np
 from dl.optimizers.optimizer import Optimizer
 
 class MomentumGradientDescent(Optimizer):
-    def __init__(self, learning_rate, batch_size, beta, lr_decay=lambda lr0: lr0):
-        super().__init__(learning_rate, batch_size, lr_decay)
+    def __init__(self, learning_rate, beta, lr_decay=lambda lr0: lr0):
+        super().__init__(learning_rate, lr_decay)
         self.beta = beta
     
     def __call__(self, layer):

@@ -5,8 +5,8 @@ from dl.optimizers.optimizer import Optimizer
 class AdaptiveMomentEstimation(Optimizer):
     EPSILON = 1e-7
 
-    def __init__(self, learning_rate, batch_size, beta1, beta2, lr_decay=lambda lr0: lr0):
-        super().__init__(learning_rate, batch_size, lr_decay)
+    def __init__(self, learning_rate, beta1, beta2, lr_decay=lambda lr0: lr0):
+        super().__init__(learning_rate, lr_decay)
         self.beta1 = beta1
         self.beta2 = beta2
         self.coefficient = 0
