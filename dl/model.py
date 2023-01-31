@@ -31,7 +31,11 @@ class Model:
         self.loss = loss
         self.optimizer = optimizer
     
-    def optimize(self, inputs_train, outputs_train, n_epochs, batch_size, verbose=True, inputs_val=None, outputs_val=None):
+    def optimize(self, inputs_train, outputs_train, n_epochs, batch_size, **kwargs):
+        verbose = kwargs.get("verbose", False)
+        inputs_val = kwargs.get("inputs_val", None)
+        outputs_val = kwargs.get("outputs_val", None)
+        
         m, _ = inputs_train.shape
 
         n_batches = np.ceil(m / batch_size).astype(int)
