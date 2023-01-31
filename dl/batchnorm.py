@@ -18,30 +18,26 @@ class BatchNormalization(Layer):
     def forward(self, inputs, is_optimizing):
         self.cache["inputs"] = inputs
 
-        if is_optimizing:
-            self.cache["batch_mean"] = np.mean(self.cache["inputs"], axis=0)
-            self.cache["batch_variance"] = np.var(self.cache["inputs"], axis=0)
+        self.cache["mean"] = np.mean(self.cache["inputs"], axis=0)
+        self.cache["variance"] = np.var(self.cache["inputs"], axis=0)
 
-            self.cache["inputs_normalized"] = (self.cache["inputs"] - self.cache["batch_mean"]) / np.sqrt(self.cache["batch_variance"] + BatchNormalization.EPSILON)
+        self.cache["inputs_normalized"] = (self.cache["inputs"] - self.cache["mean"]) / np.sqrt(self.cache["variance"] + BatchNormalization.EPSILON)
 
-            if "running_mean" not in self.cache or "running_variance" not in self.cache:
-                self.cache["running_mean"] = np.zeros_like(self.cache["batch_mean"])
-                self.cache["running_variance"] = np.zeros_like(self.cache["batch_variance"])
-
-            self.cache["running_mean"] = self.cache["momentum"] * self.cache["running_mean"] + (1 - self.cache["momentum"]) * self.cache["batch_mean"]
-            self.cache["running_variance"] = self.cache["momentum"] * self.cache["running_variance"] + (1 - self.cache["momentum"]) * self.cache["batch_variance"]
-        else:
-            self.cache["inputs_normalized"] = (self.cache["inputs"] - self.cache["running_mean"]) / np.sqrt(self.cache["running_variance"] + BatchNormalization.EPSILON)
-        
-        outputs = self.cache["gamma"] * self.cache["inputs_normalized"] + self.cache["beta"]
-        return outputs
+        self.cache["outputs"] = self.cache["gamma"] * self.cache["inputs_normalized"] + self.cache["beta"]
+        return self.cache["outputs"]
 
     def backward(self, doutputs):
+        N, D = self.cache["inputs"].shape
+
+        dinputs_normalized = doutputs * self.cache["gamma"]
+
+        dvariance = np.sum(dinputs_normalized * (self.cache["inputs"] - self.cache["mean"]) * -0.5 * (self.cache["variance"] + BatchNormalization.EPSILON)**-1.5, axis=0)
+
+        dmean = np.sum(dinputs_normalized * -1 / np.sqrt(self.cache["variance"] + BatchNormalization.EPSILON), axis=0) + dvariance * np.mean(-2 * (self.cache["inputs"] - self.cache["mean"]), axis=0)
+        
+        self.cache["dinputs"] = dinputs_normalized / np.sqrt(self.cache["variance"] + BatchNormalization.EPSILON) + dvariance * 2 * (self.cache["inputs"] - self.cache["mean"]) / N + dmean / N
+
         self.cache["dgamma"] = np.sum(doutputs * self.cache["inputs_normalized"], axis=0)
         self.cache["dbeta"] = np.sum(doutputs, axis=0)
 
-        m, _ = self.cache["inputs"].shape
-        t = 1 / np.sqrt(self.cache["batch_variance"] + BatchNormalization.EPSILON)
-
-        self.cache["dinputs"] = (self.cache["gamma"] * t / m) * (m * doutputs - np.sum(doutputs, axis=0) - t**2 * (self.cache["inputs"] - self.cache["batch_mean"]) * np.sum(doutputs * (self.cache["inputs"] - self.cache["batch_mean"]), axis=0))
         return self.cache["dinputs"]
