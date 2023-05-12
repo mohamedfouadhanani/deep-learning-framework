@@ -17,11 +17,6 @@
 - [Code Examples](#code-examples)
 - [Implementation notes](#implementation-notes)
 - [ToDo](#todo)
-- [Custom Elements](#custom-elements)
-  - [Initializer](#initializer)
-  - [Activation Function](#activation-function)
-  - [Loss](#loss)
-  - [Optimizer](#optimizer)
 
 ## Introduction
 
@@ -59,7 +54,6 @@ A from-scratch basic deep learning framework implementation in Python with NumPy
 - Tangent Hyperbolic
 - Sigmoid
 - Exponential Linear Unit
-- Softmax
 
 ### Loss Functions
 
@@ -82,6 +76,7 @@ A from-scratch basic deep learning framework implementation in Python with NumPy
 - Stochastic Gradient Descent
 - Momentum with Gradient Descent
 - RMSProp
+- Adaptive Moment Estimation
 
 ## Code Examples
 
@@ -95,56 +90,3 @@ Checkout the code examples in the `examples` directory.
 
 - Implement `Callbacks` class.
   - Solve the problem of passing data
-
-## Custom Elements
-
-### Initializer
-
-```python
-from dlf.initializers.initializer import Initializer
-
-class CustomInitializer(Initializer):
-    def __init__(self) -> None:
-        super().__init__()
-
-    def initialize(self, shape = None):
-        return ...
-```
-
-### Activation Function
-
-```python
-from dlf.activation_functions.activation_function import ActivationFunction
-
-class CustomActivationFunction(ActivationFunction):
-    def __init__(self) -> None:
-        def f(inputs):
-            # implementation code here...
-            return outputs
-
-        def df(inputs):
-            # implementation code here...
-            return outputs
-
-        super().__init__(f, df)
-```
-
-### Loss
-
-```python
-from dlf.losses.loss import Loss
-
-class CustomLoss(Loss):
-    def __init__(self) -> None:
-        def f(predictions, actuals):
-            # implementation code here...
-            return loss
-
-        def df(predictions, actuals):
-            # implementation code here...
-            return dloss
-
-        super().__init__(f, df)
-```
-
-### Optimizer
